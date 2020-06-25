@@ -1,0 +1,38 @@
+<html>
+    <body>
+        <div name='section' contenteditable="true">
+            <div name='content'>
+                <div>Edit here:</div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+            const sectionElement = document.getElementsByName('section')[0];
+            const contentElement = document.getElementsByName('content')[0];
+
+            sectionElement.addEventListener("beforeinput", handleInputEvent);
+            sectionElement.addEventListener("input", handleInputEvent);
+
+            function handleInputEvent(event){
+                console.log(event.inputType + ", " + event.type + ", " + event.data);
+                if (event.inputType == "deleteCompositionText"
+                 || event.inputType == "insertFromComposition") {
+                    switch(event.type) {
+                        case "beforeinput":
+                            if (sectionElement.contentEditable != "false") {
+                                sectionElement.contentEditable = "false";
+                                contentElement.contentEditable = "true";
+                            }
+                            break;
+                        case "input":
+                            if (sectionElement.contentEditable != "true") {
+                                sectionElement.contentEditable = "true";
+                                contentElement.contentEditable = "inherit";
+                            }
+                            break;
+                    }
+                }
+            }
+        </script>
+    </body>
+<html>
